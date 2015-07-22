@@ -1,0 +1,30 @@
+app:
+  build: ./app
+  volumes:
+    - ./app:/srv/app
+
+phpfpm0:
+  build: ./php-fpm
+  volumes_from:
+    - app
+
+phpfpm1:
+  build: ./php-fpm
+  volumes_from:
+    - app
+
+phpfpm2:
+  build: ./php-fpm
+  volumes_from:
+    - app
+
+web:
+  build: ./nginx
+  ports:
+    - 80
+  links:
+    - phpfpm0
+    - phpfpm1
+    - phpfpm2
+  volumes_from:
+    - app
